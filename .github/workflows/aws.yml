@@ -4,9 +4,7 @@ on:
   pull_request:
     branches:
       - main
-  push:
-    branches:
-      - main
+  workflow_dispatch: # Allows you to manually trigger the workflow for apply.
 
 jobs:
   plan:
@@ -44,9 +42,8 @@ jobs:
           path: ./aws/plan.json
 
   apply:
-    if: github.event_name == 'push'
+    if: github.event_name == 'workflow_dispatch' # Manually triggered event.
     name: Apply Terraform Changes
-    needs: plan
     runs-on: ubuntu-latest
 
     steps:
