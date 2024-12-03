@@ -28,7 +28,7 @@ locals {
 resource "aws_instance" "vm_a" {
   ami           = "ami-0453ec754f44f9a4a"
   instance_type = "t3.micro"
-  count         = 2
+  count         = 1
   tags = {
     Name = local.vm_names[count.index]
   }
