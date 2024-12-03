@@ -43,7 +43,7 @@ resource "aws_instance" "vm_a" {
 output "name" {
   value = {
     IP  = aws_instance.vm_a["0"].public_ip
-    ARN = aws_instance.vm_a["1"].arn
+    ARN = aws_instance.vm_a["0"].arn
     AMI = aws_instance.vm_a["0"].ami
   }
 }
