@@ -46,14 +46,15 @@ jobs:
 
     steps:
       - name: Awaiting Manual Approval
-        run: |
-          echo "Review the Terraform plan and manually approve this workflow to proceed."
-          echo "Visit the Actions tab to approve."
+        run: echo "Review the Terraform plan and approve this workflow to proceed."
 
       - name: Pause for Manual Approval
-        uses: hmarr/auto-approve-action@v2
+        uses: actions/github-script@v6
         with:
-          allow-manual-approval: true
+          script: |
+            const core = require("@actions/core");
+            core.setOutput("status", "Waiting for approval...");
+            console.log("Please manually approve in the Actions tab.");
 
   apply:
     name: Apply Terraform Changes
@@ -83,5 +84,3 @@ jobs:
       - name: commands
         run: |
          terraform show
-
-
