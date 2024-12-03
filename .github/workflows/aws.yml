@@ -29,15 +29,11 @@ jobs:
         working-directory: ./aws
         run: terraform plan -out=tfplan
 
-      - name: Save Terraform Plan Output
-        working-directory: ./aws
-        run: terraform show -json tfplan > plan.json
-
-      - name: Upload Plan for Review
+      - name: Upload Terraform Plan
         uses: actions/upload-artifact@v3
         with:
           name: terraform-plan
-          path: ./aws/plan.json
+          path: ./aws/tfplan
 
   manual_approval:
     name: Wait for Manual Approval
@@ -47,14 +43,6 @@ jobs:
     steps:
       - name: Awaiting Manual Approval
         run: echo "Review the Terraform plan and approve this workflow to proceed."
-
-      - name: Pause for Manual Approval
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const core = require("@actions/core");
-            core.setOutput("status", "Waiting for approval...");
-            console.log("Please manually approve in the Actions tab.");
 
   apply:
     name: Apply Terraform Changes
@@ -81,6 +69,3 @@ jobs:
       - name: Apply Terraform Plan
         working-directory: ./aws
         run: terraform apply -auto-approve tfplan
-      - name: commands
-        run: |
-         terraform show
