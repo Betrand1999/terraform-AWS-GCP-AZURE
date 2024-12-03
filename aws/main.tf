@@ -47,3 +47,5 @@ output "name" {
     AMI = aws_instance.vm_a["0"].ami
   }
 }
+
+######
