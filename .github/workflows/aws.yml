@@ -1,12 +1,16 @@
 name: AWS Terraform Deployment
 
 on:
+  pull_request:
+    branches:
+      - main
   push:
     branches:
       - main
 
 jobs:
   plan:
+    if: github.event_name == 'pull_request'
     name: Plan Terraform Changes
     runs-on: ubuntu-latest
 
@@ -40,6 +44,7 @@ jobs:
           path: ./aws/plan.json
 
   manual_approval:
+    if: github.event_name == 'push'
     name: Wait for Manual Approval
     needs: plan
     runs-on: ubuntu-latest
@@ -48,12 +53,8 @@ jobs:
       - name: Awaiting Manual Approval
         run: |
           echo "Review the Terraform plan and manually approve this workflow to proceed."
-          echo "Visit the Actions tab to approve."
-
-      - name: Pause for Manual Approval
+      - name: Wait for approval
         uses: hmarr/auto-approve-action@v2
-        with:
-          allow-manual-approval: true
 
   apply:
     name: Apply Terraform Changes
