@@ -1,4 +1,4 @@
-name: Deploy AWS Infrastructure
+name: AWS Terraform Deployment
 
 on:
   push:
@@ -6,7 +6,8 @@ on:
       - dev
 
 jobs:
-  deploy:
+  plan:
+    name: Plan Terraform Changes
     runs-on: ubuntu-latest
 
     steps:
@@ -28,6 +29,12 @@ jobs:
         working-directory: ./aws
         run: terraform plan -out=tfplan
 
-      - name: Apply Terraform
+      - name: Save Terraform Plan Output
         working-directory: ./aws
-        run: terraform apply -auto-approve tfplan
+        run: terraform show -json tfplan > plan.json
+
+      - name: Upload Plan for Review
+        uses: actions/upload-artifact@v3
+        with:
+          name: terraform-plan
+          path: ./aws/plan.json
