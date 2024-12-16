@@ -49,7 +49,7 @@ jobs:
   apply:
     name: Apply Terraform Changes
     needs: manual_approval
-    runs-on: [self-hosted, Linux, X64]
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
