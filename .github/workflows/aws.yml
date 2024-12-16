@@ -35,10 +35,21 @@ jobs:
           name: terraform-plan
           path: ./aws/plan.json
 
-  apply:
-    name: Apply Terraform Changes
+  manual_approval:
+    name: Wait for Manual Approval
     needs: plan
     runs-on: ubuntu-latest
+
+    steps:
+      - name: Manual Approval Required
+        run: |
+          echo "Please review the Terraform plan and approve this workflow."
+          echo "Go to the Actions tab and click 'Approve and run' to continue."
+
+  apply:
+    name: Apply Terraform Changes
+    needs: manual_approval
+    runs-on: [self-hosted, Linux, X64]
 
     steps:
       - name: Checkout repository
