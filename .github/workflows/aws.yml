@@ -8,7 +8,7 @@ on:
 jobs:
   plan:
     name: Plan Terraform Changes
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # Runs on a GitHub-hosted Ubuntu runner
 
     steps:
       - name: Checkout repository
@@ -38,7 +38,7 @@ jobs:
   manual_approval:
     name: Wait for Manual Approval
     needs: plan
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # Runs on a GitHub-hosted Ubuntu runner
 
     steps:
       - name: Manual Approval Required
@@ -49,7 +49,7 @@ jobs:
   apply:
     name: Apply Terraform Changes
     needs: manual_approval
-    runs-on: [self-hosted, Linux, X64]
+    runs-on: [self-hosted, macos]  # This will run on the self-hosted Mac runner
 
     steps:
       - name: Checkout repository
