@@ -45,15 +45,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
       - name: Manual Approval Required
         run: |
           echo "Please review the Terraform plan and approve this workflow."
           echo "Go to the Actions tab and click 'Approve and run' to continue."
+
       - name: Wait for Manual Trigger
         uses: actions/github-script@v6
         with:
           script: |
-            const approval = await require('@actions/core').getInput('manual_approval', { required: false });
+            const approval = process.env.GITHUB_EVENT_NAME;
             if (approval !== 'approved') {
               throw new Error('Workflow not approved.');
             }
