@@ -49,7 +49,7 @@ jobs:
   apply:
     name: Apply Terraform Changes
     needs: manual_approval
-    runs-on: [self-hosted, macos]  # This will run on the self-hosted Mac runner
+    runs-on: [self-hosted, macos]  # Runs on your self-hosted Mac runner
 
     steps:
       - name: Checkout repository
@@ -61,6 +61,10 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
+
+      - name: Initialize Terraform (install plugins)
+        working-directory: ./aws
+        run: terraform init
 
       - name: Apply Terraform Changes
         working-directory: ./aws
