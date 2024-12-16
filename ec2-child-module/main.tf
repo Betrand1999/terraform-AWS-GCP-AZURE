@@ -1,8 +1,27 @@
-
-resource "aws_instance" "vm_a" {
-  ami           = var.my_ami           # "ami-0453ec754f44f9a4a"
-  instance_type = var.my_instance_type # "t2.micro"
-  tags          = var.my_tag
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "5.81.0"
+    }
+  }
 }
+
+provider "aws" {
+  # Configuration options
+  region = var.my_region
+}
+
+resource "aws_instance" "ec2" {
+  ami                     = var.my_ami
+  instance_type           = var.my_instance_type
+  tags                    = var.my_tag
+  disable_api_termination = true
+  # lifecycle {
+  #   prevent_destroy = true
+  # }
+
+}
+
 
 

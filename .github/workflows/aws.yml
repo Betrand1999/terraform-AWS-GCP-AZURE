@@ -39,24 +39,8 @@ jobs:
           name: terraform-plan
           path: ./aws/plan.json
 
-  manual_approval:
-    name: Wait for Manual Approval
-    needs: plan
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Manual Approval Required
-        run: |
-          echo "Please review the Terraform plan and approve this workflow."
-          echo "Go to the Actions tab and click 'Approve and run' to continue."
-      - name: Wait for Manual Trigger
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const approval = await require('@actions/core').getInput('manual_approval', { required: false });
-            if (approval !== 'approved') {
-              throw new Error('Workflow not approved.');
-            }
+  
+            
 
   apply:
     name: Apply Terraform Changes

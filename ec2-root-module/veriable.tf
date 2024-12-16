@@ -1,11 +1,12 @@
-variable "my_ami" {
+
+variable "my_instance_type" {
   type        = string
   default     = "value"
   description = "value"
 
 }
 
-variable "my_instance_type" {
+variable "my_ami" {
   type        = string
   default     = "value"
   description = "value"
@@ -15,8 +16,17 @@ variable "my_instance_type" {
 variable "my_tag" {
   type = map(string)
   default = {
-    "name" = "value"
+    "Name" = "value"
+
   }
-  description = "value"
+
+
+}
+
+variable "my_region" {
+  type    = string
+  default = "value"
+
+
 
 }
