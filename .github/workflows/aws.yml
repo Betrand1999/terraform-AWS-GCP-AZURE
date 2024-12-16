@@ -25,26 +25,19 @@ jobs:
         working-directory: ./aws
         run: terraform init
 
-      - name: Plan Terraform
+      - name: Plan Terraform Changes
         working-directory: ./aws
-        run: terraform plan -out=tfplan
+        run: terraform plan
 
-      - name: Save Terraform Plan Output
-        working-directory: ./aws
-        run: terraform show -json tfplan > plan.json
-
-      - name: Upload Plan for Review
+      - name: Upload Plan for Review (optional)
         uses: actions/upload-artifact@v3
         with:
           name: terraform-plan
           path: ./aws/plan.json
 
-  
-            
-
   apply:
     name: Apply Terraform Changes
-    needs: manual_approval
+    needs: plan
     runs-on: ubuntu-latest
 
     steps:
@@ -58,12 +51,6 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Download Terraform Plan
-        uses: actions/download-artifact@v3
-        with:
-          name: terraform-plan
-          path: ./aws
-
-      - name: Apply Terraform Plan
+      - name: Apply Terraform Changes
         working-directory: ./aws
-        run: terraform apply -auto-approve tfplan
+        run: terraform apply -auto-approve
