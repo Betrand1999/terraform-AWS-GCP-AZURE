@@ -51,7 +51,7 @@ output "instance_info" {
 
 resource "null_resource" "my_null_resource" {
   provisioner "local-exec" {
-    command = "echo sucessully deploy"
+    command = "echo sucessully deployyyyy"
   }
 
 }
